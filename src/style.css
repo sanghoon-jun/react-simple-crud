@@ -1,0 +1,63 @@
+.crud-toolbar {
+  display: flex;
+}
+.crud-toolbar-left {
+  text-align: left;
+  flex: 1;
+}
+.crud-toolbar-right {
+  text-align: right;
+  flex: 1;
+}
+
+.crud-button {
+  color: inherit;
+  background-color:#fff;
+  font-size:1em;
+  padding: 0.5em 1em;
+  margin: 4px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  display: inline-block;
+  text-decoration: none;
+}
+.crud-editor-button:active {
+  color: inherit;
+}
+
+.crud-input {
+  padding: 0.5em 1em;
+  font-size: 1em;
+  box-sizing: border-box;
+  min-width: 100%;
+  max-width: 100%;
+}
+
+.crud-list{
+  padding:1em;
+}
+
+.crud-editor{
+  padding:1em;
+}
+.crud-editor-table {
+  width: 100%;
+  border-spacing: 0px;
+  border-collapse: separate;
+}
+.crud-editor-table td {
+  padding: 1em;
+  text-align: left;
+}
+.crud-editor-table-field {
+  border-bottom: 1px solid #ddd;
+}
+.crud-editor-buttons-left {
+  text-align: left !important;
+}
+.crud-editor-buttons-right {
+  text-align: right !important;
+}
+
+.crud-is-primary{
+}
