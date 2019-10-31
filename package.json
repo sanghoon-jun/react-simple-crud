@@ -9,6 +9,10 @@
   },
   "author": "Sanghoon Jun",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanghoon-jun/react-simple-crud.git"
+  },
   "dependencies": {
     "moment": "^2.24.0",
     "react": "^16.11.0",
