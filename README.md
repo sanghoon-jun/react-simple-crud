@@ -1,13 +1,16 @@
 # react-simple-crud
 
-# Installation
-
+## Installation
+```bash
 yarn add react-simple-crud
+```
 
-# Usage
+## Usage
+```javascript
 import CRUD from 'react-simple-crud';
+```
 
-# Example
+### Example
 
 ```javascript
 import CRUD from 'react-simple-crud';
