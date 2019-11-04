@@ -31,23 +31,26 @@ class List extends React.Component {
     // columns
     let columns = [];
     for (const key in format) {
-      if (!format[key].hasOwnProperty('list') || !format[key].list) {
+      if (!format[key].hasOwnProperty('list') || format[key].list) {
         let column = {};
         column['id'] = key;
         column['Header'] = format[key].name || key;
-        switch (format[key].type) {
-          case 'textarea':
-            column['accessor'] = key;
-            break;
-          case 'checkbox':
-            column['accessor'] = d => (d[key] ? 'o' : 'x');
-            break;
-          case 'list':
-            column['accessor'] = d => (d[key] ? d[key].length : 0);
-            break;
-          default:
-            column['accessor'] = key;
-            break;
+        if (format[key].list) column['accessor'] = format[key].list;
+        else {
+          switch (format[key].type) {
+            case 'textarea':
+              column['accessor'] = key;
+              break;
+            case 'checkbox':
+              column['accessor'] = d => (d[key] ? 'o' : 'x');
+              break;
+            case 'list':
+              column['accessor'] = d => (d[key] ? d[key].length : 0);
+              break;
+            default:
+              column['accessor'] = key;
+              break;
+          }
         }
         columns.push(column);
       }

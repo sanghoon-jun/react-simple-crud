@@ -12,8 +12,8 @@
 
 .crud-button {
   color: inherit;
-  background-color:#fff;
-  font-size:1em;
+  background-color: #fff;
+  font-size: 1em;
   padding: 0.5em 1em;
   margin: 4px;
   border: 1px solid #ddd;
@@ -33,12 +33,12 @@
   max-width: 100%;
 }
 
-.crud-list{
-  padding:1em;
+.crud-list {
+  padding: 1em;
 }
 
-.crud-editor{
-  padding:1em;
+.crud-editor {
+  padding: 1em;
 }
 .crud-editor-table {
   width: 100%;
@@ -52,6 +52,13 @@
 .crud-editor-table-field {
   border-bottom: 1px solid #ddd;
 }
+.crud-editor-table-field-header {
+  white-space: nowrap;
+  font-weight: bold;
+}
+.crud-editor-table-field-input {
+  width:99%;
+}
 .crud-editor-buttons-left {
   text-align: left !important;
 }
@@ -59,5 +66,5 @@
   text-align: right !important;
 }
 
-.crud-is-primary{
+.crud-is-primary {
 }

@@ -5,8 +5,8 @@ const Field = props => {
   const {name, children} = props;
   return (
     <tr className="crud-field">
-      <td className="crud-editor-table-field crud-field-title">{name}</td>
-      <td className="crud-editor-table-field crud-field-content">{children}</td>
+      <td className="crud-editor-table-field crud-editor-table-field-header">{name}</td>
+      <td className="crud-editor-table-field crud-editor-table-field-input">{children}</td>
     </tr>
   );
 };
@@ -21,8 +21,8 @@ const Input = props => {
     return <input type="checkbox" checked={value === true} onChange={e => console.log(e.target.checked)} />;
   else if (type === 'select')
     return (
-      <select value={value} onChange={e => onChange(e.target.value)}>
-        {options.map(option => (
+      <select className="crud-input" value={value} onChange={e => onChange(e.target.value)}>
+        {(options || []).map(option => (
           <option value={option} key={option}>
             {option}
           </option>
@@ -63,8 +63,8 @@ class Editor extends React.Component {
   }
 
   moveToList() {
-    const {history,path} = this.props;
-    history.push(path+'/');
+    const {history, path} = this.props;
+    history.push(path + '/');
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -84,7 +84,7 @@ class Editor extends React.Component {
 
   delete(id) {
     const {actions} = this.props;
-    actions['delete'](id).then(() => this.moveToList());
+    if (actions['delete']) actions['delete'](id).then(() => this.moveToList());
   }
 
   render() {
@@ -100,6 +100,7 @@ class Editor extends React.Component {
                 <Input
                   type={format[key].type}
                   value={data[key]}
+                  options={format[key].options}
                   onChange={v => this.setState({data: {...this.state.data, [key]: v}})}
                 />
               </Field>
