@@ -8,7 +8,7 @@ import moment from 'moment';
 
 class CRUD extends React.Component {
   render() {
-    const {path, actions, format} = this.props;
+    const {path, actions, format, primaryKey} = this.props;
     return (
       <Router>
         <div className="crud-toolbar">
@@ -24,7 +24,7 @@ class CRUD extends React.Component {
           </div>
         </div>
         <Route exact path={path + '/'}>
-          <List actions={actions} format={format} path={path} />
+          <List actions={actions} format={format} path={path} primaryKey={primaryKey || '_id'} />
         </Route>
         <Route path={path + '/:id'}>
           <Editor actions={actions} format={format} path={path} />
@@ -77,4 +77,3 @@ export const actionFactory = apiURL => ({
 export const parseTime = ts => {
   return moment(ts).format('MM-DD HH:mm');
 };
-

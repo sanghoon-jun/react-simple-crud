@@ -22,7 +22,7 @@ class List extends React.Component {
   }
 
   render() {
-    const {format, history, path} = this.props;
+    const {format, history, path, primaryKey} = this.props;
     const {data} = this.state;
 
     // columns
@@ -59,7 +59,7 @@ class List extends React.Component {
           columns={columns}
           data={this.state.data}
           getTrProps={(state, rowInfo) => ({
-            onClick: () => history.push(path + '/' + rowInfo.original.id),
+            onClick: () => history.push(path + '/' + rowInfo.original[primaryKey]),
           })}
         />
       </div>
