@@ -29,15 +29,19 @@ const Input = props => {
         ))}
       </select>
     );
-  else return <input value={value || ''} className="crud-input" onChange={e => onChange(e.target.value)} />;
+  else if (type === 'text' || type === 'int' || type === 'float')
+    return <input value={value || ''} className="crud-input" onChange={e => onChange(e.target.value)} />;
+  else if (type) {
+    const CustomInput = type;
+    return <CustomInput value={value} onChange={v => onChange(v)} />;
+  } else return '';
 };
 
 class Editor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: {},
-      is_loading: false,
+      _is_loading: false,
     };
   }
 
@@ -49,14 +53,17 @@ class Editor extends React.Component {
         // new
         let data = {};
         Object.keys(format).map(k => {
-          if (format[k].hasOwnProperty('default')) data[k] = format[k].default;
+          if (!format[k].readOnly) {
+            if (format[k].hasOwnProperty('default')) data[k] = format[k].default;
+          }
         });
-        this.setState({data});
-        // TODO: default values
+        this.setState(data);
       } else {
         // edit
         actions['read'](id).then(result => {
-          this.setState({data: result});
+          let data = {};
+          Object.keys(format).map(k => (!format[k].readOnly ? (data[k] = result[k]) : null));
+          this.setState(data);
         });
       }
     }
@@ -67,16 +74,16 @@ class Editor extends React.Component {
     history.push(path + '/');
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return true;
-  }
-
   submit(id, v) {
-    const {actions, beforeSubmit} = this.props;
+    const {actions, beforeSubmit, format} = this.props;
     let data = {...v};
-    delete data.id;
-    delete data.created_at;
-    delete data.updated_at;
+    delete data.id; // TODO -> readonly
+    delete data._is_loading;
+    Object.keys(format).map(k => {
+      if (data[k] && format[k].type === 'int') data[k] = parseInt(data[k]);
+      if (data[k] && format[k].type === 'float') data[k] = parseFloat(data[k]);
+    });
+    console.log(data);
     if (beforeSubmit) data = beforeSubmit(data);
     if (id === 'new') actions['create'](data).then(() => this.moveToList());
     else actions['update'](id, data).then(() => this.moveToList());
@@ -89,22 +96,25 @@ class Editor extends React.Component {
 
   render() {
     const {format, match} = this.props;
-    const {data} = this.state;
     const id = match.params.id;
     return (
       <div className="crud-editor">
         <table className="crud-editor-table">
           <tbody>
-            {Object.keys(format).map(key => (
-              <Field name={format[key].name || key} key={key}>
-                <Input
-                  type={format[key].type}
-                  value={data[key]}
-                  options={format[key].options}
-                  onChange={v => this.setState({data: {...this.state.data, [key]: v}})}
-                />
-              </Field>
-            ))}
+            {Object.keys(format).map(key =>
+              !format[key].readOnly ? (
+                <Field name={format[key].name || key} key={key}>
+                  <Input
+                    type={format[key].type}
+                    value={this.state[key]}
+                    options={format[key].options}
+                    onChange={v => this.setState({[key]: v})}
+                  />
+                </Field>
+              ) : (
+                ''
+              ),
+            )}
             <tr>
               <td className="crud-editor-buttons-left">
                 {id !== 'new' ? (
@@ -116,7 +126,7 @@ class Editor extends React.Component {
                 )}
               </td>
               <td className="crud-editor-buttons-right">
-                <button className="crud-button" onClick={() => this.submit(id, this.state.data)}>
+                <button className="crud-button" onClick={() => this.submit(id, this.state)}>
                   SUBMIT
                 </button>
                 <button className="crud-button" onClick={() => this.moveToList()}>

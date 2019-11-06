@@ -1,12 +1,7 @@
 import React from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import moment from 'moment';
 import {Link, withRouter} from 'react-router-dom';
-
-const parseTime = ts => {
-  return moment(ts).format('MM-DD HH:mm');
-};
 
 class List extends React.Component {
   constructor(props) {
@@ -18,9 +13,11 @@ class List extends React.Component {
 
   componentDidMount() {
     if (this.props && this.props.actions && this.props.actions['readAll']) {
-      this.props.actions['readAll']().then(result => {
-        this.setState({data: result});
-      });
+      this.props.actions['readAll']()
+        .then(result => {
+          this.setState({data: result});
+        })
+        .catch(error => console.log(error));
     }
   }
 
@@ -54,10 +51,6 @@ class List extends React.Component {
         }
         columns.push(column);
       }
-    }
-    if (data && data.length > 0) {
-      if (data[0].created_at) columns.push({id: 'created_at', Header: 'Created', accessor: d => parseTime(d.created_at)});
-      if (data[0].updated_at) columns.push({id: 'updated_at', Header: 'Updated', accessor: d => parseTime(d.updated_at)});
     }
 
     return (

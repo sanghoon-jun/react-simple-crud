@@ -3,6 +3,8 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import List from './List';
 import Editor from './Editor';
 import './style.css';
+import axios from 'axios';
+import moment from 'moment';
 
 class CRUD extends React.Component {
   render() {
@@ -33,3 +35,46 @@ class CRUD extends React.Component {
 }
 
 export default CRUD;
+
+export const actionFactory = apiURL => ({
+  create: data =>
+    new Promise((resolve, reject) =>
+      axios
+        .post(apiURL, data)
+        .then(result => resolve(result.data))
+        .catch(error => reject(error)),
+    ),
+  read: id =>
+    new Promise((resolve, reject) =>
+      axios
+        .get(apiURL + '/' + id)
+        .then(result => resolve(result.data))
+        .catch(error => reject(error)),
+    ),
+  readAll: () =>
+    new Promise((resolve, reject) =>
+      axios
+        .get(apiURL)
+        .then(result => resolve(result.data))
+        .catch(error => reject(error)),
+    ),
+  update: (id, data) =>
+    new Promise((resolve, reject) =>
+      axios
+        .put(apiURL + '/' + id, data)
+        .then(result => resolve(result.data))
+        .catch(error => reject(error)),
+    ),
+  delete: id =>
+    new Promise((resolve, reject) =>
+      axios
+        .delete(apiURL + '/' + id)
+        .then(result => resolve(result.data))
+        .catch(error => reject(error)),
+    ),
+});
+
+export const parseTime = ts => {
+  return moment(ts).format('MM-DD HH:mm');
+};
+

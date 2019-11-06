@@ -14,6 +14,7 @@
     "url": "git+https://github.com/sanghoon-jun/react-simple-crud.git"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "moment": "^2.24.0",
     "react": "^16.11.0",
     "react-router-dom": "^5.1.2",
