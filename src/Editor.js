@@ -18,7 +18,7 @@ const Input = props => {
       <textarea value={value || ''} className="crud-input crud-textarea" rows={5} onChange={e => onChange(e.target.value)} />
     );
   else if (type === 'checkbox')
-    return <input type="checkbox" checked={value === true} onChange={e => console.log(e.target.checked)} />;
+    return <input type="checkbox" checked={value === true} onChange={e => onChange(e.target.checked)} />;
   else if (type === 'select')
     return (
       <select className="crud-input" value={value} onChange={e => onChange(e.target.value)}>
